@@ -228,10 +228,9 @@ public class Clientes extends javax.swing.JFrame {
                c.getCelular()
            };
            model.addRow(linha);
-           
           
-           
            //limpa campos
+           
            txtNome.setText("");
            txtCPF.setText("");
            txtRG.setText("");

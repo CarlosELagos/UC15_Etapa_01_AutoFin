@@ -46,7 +46,7 @@ public class VeiculoCSV {
 
     public static ArrayList<Veiculo> lista = new ArrayList<>();
 
-    public static ArrayList<Veiculo> listaVeiculos(){
+  /*  public static ArrayList<Veiculo> listaVeiculos(){
      try{
          BufferedReader leitor = new BufferedReader (new FileReader (veiculos));
          String linha;
@@ -65,14 +65,14 @@ public class VeiculoCSV {
              int km = Integer.parseInt(partes[3]);
              String placa = partes[4];
              
-             Veiculo v = new Veiculo(marca, modelo, combustivel, km , placa);
+           //  Veiculo v = new Veiculo(marca, modelo, combustivel, km , placa);
              
-             lista.add(v);
+//             lista.add(v);
          }
          leitor.close();
          
      }catch(IOException e){
      }
      return lista;
-    }
+    }*/
 }

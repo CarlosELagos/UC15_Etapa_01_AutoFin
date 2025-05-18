@@ -5,11 +5,13 @@
 package Form;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Beans.Veiculo;
 import Beans.VeiculoCSV;
-import static Beans.VeiculoCSV.listaVeiculos;
+import DAO.VeiculoDAO;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -22,6 +24,8 @@ public class Veiculos extends javax.swing.JFrame {
      */
     public Veiculos() {
         initComponents();
+        criaTabelaVeiculo();
+        
     }
 
     /**
@@ -48,9 +52,9 @@ public class Veiculos extends javax.swing.JFrame {
         txtKm = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaVeiculos = new javax.swing.JTable();
         btnSair = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblVeiculos = new javax.swing.JTable();
 
         jTextField1.setText("jTextField1");
 
@@ -87,15 +91,25 @@ public class Veiculos extends javax.swing.JFrame {
 
         jLabel8.setText("VEÍCULOS CADASTRADOS");
 
-        TabelaVeiculos.setModel(criaTabelaVeiculo());
-        jScrollPane1.setViewportView(TabelaVeiculos);
-
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
             }
         });
+
+        tblVeiculos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Modelo", "Marca", "Combu","Placa","Km"
+            }
+        ));
+        jScrollPane2.setViewportView(tblVeiculos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,11 +118,12 @@ public class Veiculos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSair))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSair, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -137,9 +152,9 @@ public class Veiculos extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtKm, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCadastrar)
                             .addComponent(cmbCombustivel, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -163,15 +178,16 @@ public class Veiculos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCadastrar))
-                .addGap(36, 36, 36)
+                    .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCadastrar)
+                .addGap(3, 3, 3)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
                 .addComponent(btnSair)
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         pack();
@@ -187,20 +203,25 @@ public class Veiculos extends javax.swing.JFrame {
         try {
             //adicionando novo veiculo
 
-            v.setMarca(cmbMarca.getSelectedItem().toString());
             v.setModelo(txtModelo.getText());
+            v.setMarca(cmbMarca.getSelectedItem().toString());
             v.setCombustivel(cmbCombustivel.getSelectedItem().toString());
-            v.setKm(Integer.parseInt(txtKm.getText()));
             v.setPlaca(txtPlaca.getText());
+            v.setKm(Integer.parseInt(txtKm.getText()));
+
 
             // adicionando a lista
-            VeiculoCSV.AdicionarVeiculo(v);
+            
+            VeiculoDAO vDAO = new VeiculoDAO();
+            vDAO.cadastrarVeiculo(v);
 
             // obtendo a tabela dos veiculos
-            DefaultTableModel model = (DefaultTableModel) TabelaVeiculos.getModel();
+            
+            DefaultTableModel model = (DefaultTableModel) tblVeiculos.getModel();
 
-            // adicionando novo veiculo
+           // adicionando novo veiculo
             String[] linha = {
+                String.valueOf(v.getId()),
                 v.getMarca(),
                 v.getModelo(),
                 v.getCombustivel(),
@@ -256,26 +277,30 @@ public class Veiculos extends javax.swing.JFrame {
         });
     }
     
-    public DefaultTableModel criaTabelaVeiculo(){
-        String [] colunas = {"Marca", "Modelo", "Combustivel", "Quilometragem", "Placa"};
-        DefaultTableModel tabelav  = new DefaultTableModel(colunas, 0 );
-        ArrayList<Veiculo> lista = listaVeiculos();
-        
-        for (int i = 0; i < lista.size(); i++) {
-            Veiculo v = lista.get(i);
-            String [] linhas = {
-                v.getMarca(),
-                v.getModelo(),
-                v.getCombustivel(),
-                String.valueOf(v.getKm()),
-                v.getPlaca()
-            };
-            tabelav.addRow(linhas);
-        }
-        return tabelav;
-    }
+    public void criaTabelaVeiculo(){
+          VeiculoDAO vDAO = new VeiculoDAO();
+            
+            List<Veiculo> listaVeiculo = vDAO.geraTabelaVeiculo();
+            DefaultTableModel tabelaVeiculos = (DefaultTableModel) tblVeiculos.getModel();
+            tblVeiculos.setRowSorter(new TableRowSorter(tabelaVeiculos));
+            tabelaVeiculos.setNumRows(0);
+            // percorre a lista de clientes
+            for (Veiculo v : listaVeiculo) {
 
-    public void adicionarVeiculo(DefaultTableModel tabelaV, Veiculo novoVeiculo) {
+                Object[] obj = new Object[]{
+                    v.getId(),
+                    v.getModelo(),
+                    v.getMarca(),
+                    v.getCombustivel(),
+                    v.getPlaca(),
+                    v.getKm(),};
+                    tabelaVeiculos.addRow(obj);
+                }
+                    
+        }
+    
+
+  /*  public void adicionarVeiculo(DefaultTableModel tabelaV, Veiculo novoVeiculo) {
         String[] linha = {
             novoVeiculo.getMarca(),
             novoVeiculo.getModelo(),
@@ -285,10 +310,9 @@ public class Veiculos extends javax.swing.JFrame {
         };
         tabelaV.addRow(linha);
     }
-
+*/
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TabelaVeiculos;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnSair;
     private javax.swing.JComboBox<String> cmbCombustivel;
@@ -301,8 +325,9 @@ public class Veiculos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblVeiculos;
     private javax.swing.JTextField txtKm;
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtPlaca;
