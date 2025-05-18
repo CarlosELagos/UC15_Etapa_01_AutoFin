@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/carlo/OneDrive/Documentos/TDS/JAVA/UC15_Etapa_01_AutoFin/src/uc15_etapa_01_autofin/conexao/conexao.java</file>
+            <file>file:/C:/Users/carlo/OneDrive/Documentos/TDS/JAVA/UC15_Etapa_01_AutoFin/src/uc15_etapa_01_autofin/Beans/Usuario.java</file>
+            <file>file:/C:/Users/carlo/OneDrive/Documentos/TDS/JAVA/UC15_Etapa_01_AutoFin/src/uc15_etapa_01_autofin/Beans/Cliente.java</file>
+            <file>file:/C:/Users/carlo/OneDrive/Documentos/TDS/JAVA/UC15_Etapa_01_AutoFin/src/uc15_etapa_01_autofin/Form/Login.java</file>
+            <file>file:/C:/Users/carlo/OneDrive/Documentos/TDS/JAVA/UC15_Etapa_01_AutoFin/src/uc15_etapa_01_autofin/DAO/UsuarioDAO.java</file>
+        </group>
     </open-files>
 </project-private>
