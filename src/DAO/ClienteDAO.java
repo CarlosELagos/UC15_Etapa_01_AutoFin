@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import Beans.Cliente;
 import conexao.Conexao;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -36,6 +39,35 @@ public class ClienteDAO {
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar" + e.getMessage());
         }
+    }
+    
+    public List<Cliente> geraTabelaCliente() {
+        //pega os dados no BD
+        String sql = "SELECT * FROM cliente";
+        //gera a tabela
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            List<Cliente> lista = new ArrayList<>();
+
+            while (rs.next()) {
+                Cliente c = new Cliente();
+
+                c.setId(rs.getInt("id_cliente"));
+                c.setNome(rs.getString("nome"));
+                c.setCpf(rs.getString("CPF"));
+                c.setRg(rs.getString("RG"));
+                c.setEndereco(rs.getString("endereco"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCelular(rs.getString("celular"));
+                lista.add(c);
+            }
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
+            return null;
+        }
+
     }
 
 }

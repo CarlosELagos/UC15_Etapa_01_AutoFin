@@ -3,12 +3,13 @@ package Beans;
 
 public class Cliente {
 
-private String nome;
-private String cpf;
-private String rg;
-private String endereco;
-private String telefone;
-private String celular;
+    private int id;
+    private String nome;
+    private String cpf;
+    private String rg;
+    private String endereco;
+    private String telefone;
+    private String celular;
 
     public Cliente() {
     }
@@ -20,6 +21,14 @@ private String celular;
         this.endereco = endereco;
         this.telefone = telefone;
         this.celular = celular;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {

@@ -11,10 +11,15 @@ import Beans.Cliente;
 import Beans.ClienteCSV;
 import static Beans.ClienteCSV.listaClientes;
 import DAO.ClienteDAO;
+import java.util.List;
+import javax.swing.table.TableRowSorter;
 public class Clientes extends javax.swing.JFrame {
 
     public Clientes() {
         initComponents();
+        criaTabelaCliente();
+       
+        
     }
 
     /**
@@ -41,10 +46,10 @@ public class Clientes extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtCel = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaCliente = new javax.swing.JTable();
         jLabel9 = new javax.swing.JLabel();
         btnSair = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,8 +79,6 @@ public class Clientes extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(TabelaCliente);
-
         jLabel9.setText("CLIENTES CADASTRADOS:");
 
         btnSair.setText("SAIR");
@@ -84,6 +87,19 @@ public class Clientes extends javax.swing.JFrame {
                 btnSairActionPerformed(evt);
             }
         });
+
+        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "C.P.F.", "R.G.","Endereço","Telefone","Celular"
+            }
+        ));
+        jScrollPane2.setViewportView(tblCliente);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,24 +124,26 @@ public class Clientes extends javax.swing.JFrame {
                                     .addComponent(txtRG, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                                     .addComponent(txtCPF, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCadastrar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSair, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnSair))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel9)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnCadastrar)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel7)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel8)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtCel, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -158,13 +176,13 @@ public class Clientes extends javax.swing.JFrame {
                     .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(txtCel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnCadastrar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
@@ -194,13 +212,14 @@ public class Clientes extends javax.swing.JFrame {
            ClienteDAO cDAO = new ClienteDAO();
            cDAO.cadastrarCliente(c);
            
-          /* // tabela dos clientes
+           // tabela dos clientes
            
-           DefaultTableModel model = (DefaultTableModel) TabelaCliente.getModel();
+           DefaultTableModel model = (DefaultTableModel) tblCliente.getModel();
            
            // adicionando novo cliente
            
            String [] linha = {
+               String.valueOf(c.getId()),
                c.getNome(),
                c.getCpf(),
                c.getRg(),
@@ -210,7 +229,7 @@ public class Clientes extends javax.swing.JFrame {
            };
            model.addRow(linha);
            
-           */
+          
            
            //limpa campos
            txtNome.setText("");
@@ -260,25 +279,29 @@ public class Clientes extends javax.swing.JFrame {
         });
     }
     
-        public DefaultTableModel criaTabelaCliente(){
-        String [] colunas = {"Nome", "C.P.F.", "R.G.", "Endereço", "Telefone", "Celular"};
-        DefaultTableModel tabelaC  = new DefaultTableModel(colunas, 0 );
-        ArrayList<Cliente> lista = listaClientes();
+        public void criaTabelaCliente(){
         
-        for (int i = 0; i < lista.size(); i++) {
-            Cliente c = lista.get(i);
-            String [] linhas = {
-                c.getNome(),
-                c.getCpf(),
-                c.getRg(),
-                c.getEndereco(),
-                c.getTelefone(),
-                c.getCelular()
-            };
-            tabelaC.addRow(linhas);
+            ClienteDAO cDAO = new ClienteDAO();
+            
+            List<Cliente> listaCliente = cDAO.geraTabelaCliente();
+            DefaultTableModel tabelaCliente = (DefaultTableModel) tblCliente.getModel();
+            tblCliente.setRowSorter(new TableRowSorter(tabelaCliente));
+            tabelaCliente.setNumRows(0);
+            // percorre a lista de clientes
+            for (Cliente c : listaCliente) {
+
+                Object[] obj = new Object[]{
+                    c.getId(),
+                    c.getNome(),
+                    c.getCpf(),
+                    c.getRg(),
+                    c.getEndereco(),
+                    c.getTelefone(),
+                    c.getCelular(),};
+                tabelaCliente.addRow(obj);
+            
+            }
         }
-        return tabelaC;
-    }
 
    /* public void adicionarCliente(DefaultTableModel tabelaC, Cliente nc) {
         String[] linha = {
@@ -297,7 +320,6 @@ public class Clientes extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TabelaCliente;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
@@ -309,7 +331,8 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblCliente;
     private javax.swing.JTextField txtCPF;
     private javax.swing.JTextField txtCel;
     private javax.swing.JTextField txtEndereco;
