@@ -46,7 +46,7 @@ public class ProdutosCSV {
         }
         return false;
     }
-    
+/*    
     public static ArrayList<Produtos> lista = new ArrayList<>();
     
     public static ArrayList<Produtos> listaProdutos() {
@@ -92,5 +92,5 @@ public class ProdutosCSV {
         }
         return false;
     }
-
+*/
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Beans.Veiculo;
-import Beans.VeiculoCSV;
+
 import DAO.VeiculoDAO;
 import javax.swing.table.TableRowSorter;
 
@@ -222,11 +222,11 @@ public class Veiculos extends javax.swing.JFrame {
            // adicionando novo veiculo
             String[] linha = {
                 String.valueOf(v.getId()),
-                v.getMarca(),
                 v.getModelo(),
+                v.getMarca(),
                 v.getCombustivel(),
+                v.getPlaca(),
                 String.valueOf(v.getKm()),
-                v.getPlaca()
             };
             model.addRow(linha);
 
@@ -235,6 +235,8 @@ public class Veiculos extends javax.swing.JFrame {
             txtModelo.setText("");
             txtKm.setText("");
             txtPlaca.setText("");
+            
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso.");
 
         } catch (Exception e) {
             System.out.println("Não Cadastrado");
@@ -276,28 +278,28 @@ public class Veiculos extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void criaTabelaVeiculo(){
-          VeiculoDAO vDAO = new VeiculoDAO();
-            
-            List<Veiculo> listaVeiculo = vDAO.geraTabelaVeiculo();
-            DefaultTableModel tabelaVeiculos = (DefaultTableModel) tblVeiculos.getModel();
-            tblVeiculos.setRowSorter(new TableRowSorter(tabelaVeiculos));
-            tabelaVeiculos.setNumRows(0);
-            // percorre a lista de clientes
-            for (Veiculo v : listaVeiculo) {
 
-                Object[] obj = new Object[]{
-                    v.getId(),
-                    v.getModelo(),
-                    v.getMarca(),
-                    v.getCombustivel(),
-                    v.getPlaca(),
-                    v.getKm(),};
-                    tabelaVeiculos.addRow(obj);
-                }
-                    
+    public void criaTabelaVeiculo() {
+        VeiculoDAO vDAO = new VeiculoDAO();
+
+        List<Veiculo> listaVeiculo = vDAO.geraTabelaVeiculo();
+        DefaultTableModel tabelaVeiculos = (DefaultTableModel) tblVeiculos.getModel();
+        tblVeiculos.setRowSorter(new TableRowSorter(tabelaVeiculos));
+        tabelaVeiculos.setNumRows(0);
+        // percorre a lista de clientes
+        for (Veiculo v : listaVeiculo) {
+
+            Object[] obj = new Object[]{
+                v.getId(),
+                v.getModelo(),
+                v.getMarca(),
+                v.getCombustivel(),
+                v.getPlaca(),
+                v.getKm(),};
+            tabelaVeiculos.addRow(obj);
         }
+
+    }
     
 
   /*  public void adicionarVeiculo(DefaultTableModel tabelaV, Veiculo novoVeiculo) {

@@ -2,6 +2,7 @@ package Beans;
 
 public class Produtos {
 
+    private int id;
     private String nomeProduto;
     private int quantidade;
     private double valor;
@@ -10,11 +11,20 @@ public class Produtos {
     public Produtos() {
     }
 
-    public Produtos(String nomeProduto, int quantidade, double valor, String data) {
+    public Produtos(int id, String nomeProduto, int quantidade, double valor, String data) {
+        this.id = id;
         this.nomeProduto = nomeProduto;
         this.quantidade = quantidade;
         this.valor = valor;
         this.data = data;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNomeProduto() {

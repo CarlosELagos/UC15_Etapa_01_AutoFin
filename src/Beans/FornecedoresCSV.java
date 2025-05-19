@@ -64,8 +64,9 @@ public class FornecedoresCSV {
                 String cnpj = partes[1];
                 String telefone = partes[2];
                 String endereco = partes[3];
+                Fornecedores f = null;
                 
-                Fornecedores f = new Fornecedores(nome, cnpj, telefone, endereco);
+                
                 
                 lista.add(f);
                 

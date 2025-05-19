@@ -2,19 +2,29 @@ package Beans;
 
 public class Fornecedores {
 
+    private int id;
     private String nome;
     private String cnpj;
-    private String telefone;
+    private int telefone;
     private String endereco;
 
     public Fornecedores() {
     }
 
-    public Fornecedores(String nome, String cnpj, String telefone, String endereco) {
+    public Fornecedores(int id, String nome, String cnpj, int telefone, String endereco) {
+        this.id = id;
         this.nome = nome;
         this.cnpj = cnpj;
         this.telefone = telefone;
         this.endereco = endereco;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -33,11 +43,11 @@ public class Fornecedores {
         this.cnpj = cnpj;
     }
 
-    public String getTelefone() {
+    public int getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(int telefone) {
         this.telefone = telefone;
     }
 
@@ -45,8 +55,9 @@ public class Fornecedores {
         return endereco;
     }
 
-    public void setEndereço(String endereco) {
+    public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 
+    
 }

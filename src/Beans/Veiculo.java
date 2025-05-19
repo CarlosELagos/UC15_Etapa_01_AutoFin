@@ -3,27 +3,26 @@ package Beans;
 public class Veiculo {
 
     private int id;
-    private String marca;
+    
     private String modelo;
+    private String marca;
     private String combustivel;
-    private int km;
     private String placa;
+    private int km;
     private int cliente;
 
-    public Veiculo() {
-    }
-
-    public Veiculo(int id, String marca, String modelo, String combustivel, int km, String placa, int cliente) {
+    public Veiculo(int id, String modelo, String marca, String combustivel, String placa, int km, int cliente) {
         this.id = id;
-        this.marca = marca;
         this.modelo = modelo;
+        this.marca = marca;
         this.combustivel = combustivel;
-        this.km = km;
         this.placa = placa;
+        this.km = km;
         this.cliente = cliente;
     }
 
-   
+    public Veiculo() {
+    }
 
     public int getId() {
         return id;
@@ -31,22 +30,6 @@ public class Veiculo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(int cliente) {
-        this.cliente = cliente;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
     }
 
     public String getModelo() {
@@ -57,12 +40,28 @@ public class Veiculo {
         this.modelo = modelo;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
     public String getCombustivel() {
         return combustivel;
     }
 
     public void setCombustivel(String combustivel) {
         this.combustivel = combustivel;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
     }
 
     public int getKm() {
@@ -73,11 +72,11 @@ public class Veiculo {
         this.km = km;
     }
 
-    public String getPlaca() {
-        return placa;
+    public int getCliente() {
+        return cliente;
     }
 
-    public void setPlaca(String placa) {
-        this.placa = placa;
+    public void setCliente(int cliente) {
+        this.cliente = cliente;
     }
 }

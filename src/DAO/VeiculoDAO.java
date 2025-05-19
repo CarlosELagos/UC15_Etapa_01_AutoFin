@@ -5,6 +5,7 @@ import java.sql.Connection;
 import conexao.Conexao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +27,17 @@ public class VeiculoDAO {
 
         try {
 
-            PreparedStatement s = this.conn.prepareStatement(sql);
-            s.setString(1, veiculo.getModelo());
-            s.setString(2, veiculo.getMarca());
-            s.setString(3, veiculo.getCombustivel());
-            s.setString(4, veiculo.getPlaca());
-            s.setInt(5, veiculo.getKm());
-            s.executeQuery();
-            
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, veiculo.getModelo());
+            stmt.setString(2, veiculo.getMarca());
+            stmt.setString(3, veiculo.getCombustivel());
+            stmt.setString(4, veiculo.getPlaca());
+            stmt.setInt(5, veiculo.getKm());
+            stmt.executeUpdate();
+
             System.out.println("Veiculo cadastrado");
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erro ao cadastrar veiculo: " + e.getMessage());
         }
     }
@@ -46,14 +47,13 @@ public class VeiculoDAO {
         String sql = "SELECT * FROM carro";
         //gera tabela
         try {
-            PreparedStatement st = this.conn.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
             List<Veiculo> lista = new ArrayList<>();
 
             while (rs.next()) {
-
                 Veiculo v = new Veiculo();
-                
+
                 v.setId(rs.getInt("id_carro"));
                 v.setModelo(rs.getString("modelo"));
                 v.setMarca(rs.getString("marca"));

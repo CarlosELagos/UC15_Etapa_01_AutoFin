@@ -9,6 +9,9 @@ import javax.swing.table.DefaultTableModel;
 import Beans.Fornecedores;
 import Beans.FornecedoresCSV;
 import static Beans.FornecedoresCSV.listaFornecedores;
+import DAO.FornecedorDAO;
+import java.util.List;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -21,6 +24,7 @@ public class FornecedoresF extends javax.swing.JFrame {
      */
     public FornecedoresF() {
         initComponents();
+        criaTabelaF();
     }
 
     /**
@@ -32,6 +36,9 @@ public class FornecedoresF extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblFornecedor = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
@@ -42,11 +49,26 @@ public class FornecedoresF extends javax.swing.JFrame {
         txtTelefone = new javax.swing.JTextField();
         lblEndereco = new javax.swing.JLabel();
         txtEndereco = new javax.swing.JTextField();
-        btnCadastar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaFornecedores = new javax.swing.JTable();
+        tblFornecedores = new javax.swing.JTable();
         btnSair = new javax.swing.JButton();
+        btnCadastro = new javax.swing.JToggleButton();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jButton1.setText("jButton1");
+
+        jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,22 +87,32 @@ public class FornecedoresF extends javax.swing.JFrame {
 
         lblEndereco.setText("Endereço:");
 
-        btnCadastar.setText("CADASTRAR");
-        btnCadastar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastarActionPerformed(evt);
-            }
-        });
-
         jLabel7.setText("FORNECEDORES CADASTRADOS");
 
-        TabelaFornecedores.setModel(criaTabelaF());
-        jScrollPane1.setViewportView(TabelaFornecedores);
+        tblFornecedores.setModel((new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "C.N.P.J.", "Telefone","Endereço"
+            }
+        )));
+        jScrollPane1.setViewportView(tblFornecedores);
 
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
+            }
+        });
+
+        btnCadastro.setText("Cadastrar");
+        btnCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastroActionPerformed(evt);
             }
         });
 
@@ -91,29 +123,36 @@ public class FornecedoresF extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
-                    .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblEndereco)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCadastar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSair))
-                    .addComponent(lblFornecedor)
-                    .addComponent(jLabel7)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTelefone)
-                            .addComponent(lblCNPJ)
-                            .addComponent(lblNome))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                            .addComponent(txtTelefone)
-                            .addComponent(txtCNPJ)
-                            .addComponent(txtNome))))
-                .addContainerGap())
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnSair))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblFornecedor)
+                                    .addComponent(jLabel7))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblEndereco)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblTelefone)
+                                    .addComponent(lblCNPJ)
+                                    .addComponent(lblNome))
+                                .addGap(28, 28, 28)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                                    .addComponent(txtTelefone)
+                                    .addComponent(txtCNPJ)
+                                    .addComponent(txtNome))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCadastro)
+                        .addGap(16, 16, 16))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +177,7 @@ public class FornecedoresF extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEndereco)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCadastar))
+                    .addComponent(btnCadastro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -155,26 +194,28 @@ public class FornecedoresF extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void btnCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastarActionPerformed
+    private void btnCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastroActionPerformed
         Fornecedores f = new Fornecedores();
         try {
             //adicionando novo fornecedor.
             f.setNome(txtNome.getText());
             f.setCnpj(txtCNPJ.getText());
-            f.setTelefone(txtTelefone.getText());
-            f.setEndereço(txtEndereco.getText());
+            f.setTelefone(Integer.parseInt(txtTelefone.getText()));
+            f.setEndereco(txtEndereco.getText());
 
             // adicionando a lista de fornecedores
-            FornecedoresCSV.AdicionarFornecedores(f);
+            FornecedorDAO fDAO = new FornecedorDAO();
+            fDAO.cadastrarForncedor(f);
 
             // Obtendo a tabela.
-            DefaultTableModel model = (DefaultTableModel) TabelaFornecedores.getModel();
+            DefaultTableModel model = (DefaultTableModel) tblFornecedores.getModel();
 
             // Adicionando um novo fornecedor sem recriar a tabela.
             String[] linha = {
+                String.valueOf(f.getId()),
                 f.getNome(),
                 f.getCnpj(),
-                f.getTelefone(),
+                String.valueOf(f.getTelefone()),
                 f.getEndereco()
             };
             model.addRow(linha);
@@ -182,14 +223,16 @@ public class FornecedoresF extends javax.swing.JFrame {
             // limpando os campos.
             txtNome.setText("");
             txtCNPJ.setText("");
-            txtTelefone.setText("");
             txtEndereco.setText("");
+            txtTelefone.setText("");
+            
+            
 
         } catch (Exception e) {
             System.out.println("Não Cadastrado.");
         }
 
-    }//GEN-LAST:event_btnCadastarActionPerformed
+    }//GEN-LAST:event_btnCadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,25 +249,27 @@ public class FornecedoresF extends javax.swing.JFrame {
 
     }
 
-    public DefaultTableModel criaTabelaF() {
+    public void criaTabelaF() {
 
-        String[] colunas = {"Nome", "C.N.P.J.", "Telefone", "Endereço"};
-        DefaultTableModel tabela = new DefaultTableModel(colunas, 0);
-        ArrayList<Fornecedores> lista = listaFornecedores();
+        FornecedorDAO fDAO = new FornecedorDAO();
 
-        for (int i = 0; i < lista.size(); i++) {
-            Fornecedores f = lista.get(i);
-            String[] linhas = {
+        List<Fornecedores> ListaFor = fDAO.geraTabelaFornecedor();
+        DefaultTableModel tabelaFornecedores = (DefaultTableModel) tblFornecedores.getModel();
+        tblFornecedores.setRowSorter(new TableRowSorter(tabelaFornecedores));
+        tabelaFornecedores.setNumRows(0);
+        for (Fornecedores f : ListaFor) {
+
+            Object[] obj = new Object[]{
+                f.getId(),
                 f.getNome(),
                 f.getCnpj(),
                 f.getTelefone(),
-                f.getEndereco()
-            };
-            tabela.addRow(linhas);
+                f.getEndereco(),};
+            tabelaFornecedores.addRow(obj);
+
         }
-        return tabela;
     }
-    
+    /*
     public void adicionarFornecedor(DefaultTableModel tabela, Fornecedores novoFornecedor) {
     String[] linha = {
         novoFornecedor.getNome(),
@@ -234,13 +279,15 @@ public class FornecedoresF extends javax.swing.JFrame {
     };
     tabela.addRow(linha);
     }
-    
+  */  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TabelaFornecedores;
-    private javax.swing.JButton btnCadastar;
+    private javax.swing.JToggleButton btnCadastro;
     private javax.swing.JButton btnSair;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCNPJ;
     private javax.swing.JLabel lblEndereco;
@@ -248,6 +295,7 @@ public class FornecedoresF extends javax.swing.JFrame {
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTelefone;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTable tblFornecedores;
     private javax.swing.JTextField txtCNPJ;
     private javax.swing.JTextField txtEndereco;
     private javax.swing.JTextField txtNome;

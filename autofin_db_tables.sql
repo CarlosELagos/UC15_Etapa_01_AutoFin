@@ -59,7 +59,7 @@ CREATE TABLE carro
 id_carro INT NOT NULL AUTO_INCREMENT,
 modelo VARCHAR(45),
 marca VARCHAR(45),
-combustivel CHAR,
+combustivel VARCHAR(12),
 placa VARCHAR(7),
 quilometragem INT,
 cliente_id INT,

@@ -10,8 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import Beans.Produtos;
-import Beans.ProdutosCSV;
-import static Beans.ProdutosCSV.listaProdutos;
+
+
+import DAO.ProdutosDAO;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableRowSorter;
 
 
 
@@ -22,6 +26,8 @@ public class Produtosf extends javax.swing.JFrame {
      */
     public Produtosf() {
         initComponents();
+        criaTabela();
+        
     }
 
     /**
@@ -43,11 +49,11 @@ public class Produtosf extends javax.swing.JFrame {
         txtQuantidade = new javax.swing.JTextField();
         btnCadastrar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TabelaProdutos = new javax.swing.JTable();
         btnVoltar = new javax.swing.JButton();
         txtValor = new javax.swing.JTextField();
         txtData = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblProdutos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -76,21 +82,25 @@ public class Produtosf extends javax.swing.JFrame {
 
         jLabel7.setText("CADASTRO DE PRODUTOS");
 
-        TabelaProdutos.setModel(criaTabela());
-        TabelaProdutos.setToolTipText("Tabela de produtos cadastrados\n");
-        TabelaProdutos.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                TabelaProdutosFocusGained(evt);
-            }
-        });
-        jScrollPane1.setViewportView(TabelaProdutos);
-
         btnVoltar.setText("SAIR");
         btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVoltarActionPerformed(evt);
             }
         });
+
+        tblProdutos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblProdutos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,7 +109,7 @@ public class Produtosf extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -153,9 +163,9 @@ public class Produtosf extends javax.swing.JFrame {
                     .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnVoltar)
                 .addContainerGap())
         );
@@ -179,10 +189,11 @@ public class Produtosf extends javax.swing.JFrame {
             p.setData(txtData.getText());
 
             // Adicionando a lista
-            ProdutosCSV.AdicionarProdutos(p);
+            ProdutosDAO pDAO = new ProdutosDAO();
+            pDAO.cadastroDeProdutos(p);
 
             //obtendo tabela
-            DefaultTableModel model = (DefaultTableModel) TabelaProdutos.getModel();
+            DefaultTableModel model = criaTabela();
 
             //adicionando um novo produto sem recriar a tabela
             String[] linha = {
@@ -198,6 +209,9 @@ public class Produtosf extends javax.swing.JFrame {
             txtQuantidade.setText("");
             txtValor.setText("");
             txtData.setText("");
+            
+            // Aviso de cadastrado 
+            //JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
 
         } catch (Exception e) {
             System.out.println("não cadastrado.");
@@ -205,18 +219,6 @@ public class Produtosf extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnCadastrarActionPerformed
-
-    private void TabelaProdutosFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_TabelaProdutosFocusGained
-        Produtos p = new Produtos();
-        DefaultTableModel model = (DefaultTableModel) TabelaProdutos.getModel();
-        String[] linha = {
-            p.getNomeProduto(),
-            String.valueOf(p.getQuantidade()),
-            String.valueOf(p.getValor()),
-            p.getData()
-        };
-        model.addRow(linha);
-    }//GEN-LAST:event_TabelaProdutosFocusGained
 
     /**
      * @param args the command line arguments
@@ -250,27 +252,32 @@ public class Produtosf extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Produtosf().setVisible(true);
+                
             }
         });
     }
     
     public DefaultTableModel criaTabela() {
-        String[] colunas = {"Nome", "Quantidade", "Valor", "Data"};
-        DefaultTableModel tabela = new DefaultTableModel(colunas, 0);
-        ArrayList<Produtos> lista = listaProdutos();
 
-        for (int i = 0; i < lista.size(); i++) {
-            Produtos p = lista.get(i);
+        ProdutosDAO pDAO = new ProdutosDAO();
 
-            String[] linhas = {
-                p.getNomeProduto(),
-                String.valueOf(p.getQuantidade()),
-                String.valueOf(p.getValor()),
-                p.getData()
-            };
-            tabela.addRow(linhas);
+        List<Produtos> lista = pDAO.geraTabelaProdutos();
+        DefaultTableModel tabela = (DefaultTableModel) tblProdutos.getModel();
+        tblProdutos.setRowSorter(new TableRowSorter(tabela));
+        tabela.setNumRows(0);
+        for (Produtos pro : lista) {
+
+            Object[] obj = new Object[]{
+                pro.getId(),
+                pro.getNomeProduto(),
+                pro.getQuantidade(),
+                pro.getValor(),
+                pro.getData(),};
+            tabela.addRow(obj);
+
         }
         return tabela;
+
     }
     
     public void adicionarProduto(DefaultTableModel tabela, Produtos novoProduto) {
@@ -285,7 +292,6 @@ public class Produtosf extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TabelaProdutos;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnVoltar;
     private javax.swing.JLabel jLabel1;
@@ -295,12 +301,17 @@ public class Produtosf extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblProdutos;
     private javax.swing.JTextField txtData;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtQuantidade;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
+
+    private DefaultTableModel geraTabelaProdutos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     
 }

@@ -36,6 +36,7 @@ public class ClienteDAO {
             stmt.setString(6, cliente.getCelular());
 
             stmt.execute();
+            
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar" + e.getMessage());
         }
