@@ -8,7 +8,8 @@ public class Orcamentos {
     private Double total;
     private String cliente;
     private String placa;
-    private static int contador = 1;
+    
+    private Double total_orcamentos;
 
     public Orcamentos() {
     }
@@ -23,6 +24,14 @@ public class Orcamentos {
         this.placa = placa;
     }
 
+    public Double getTotal_orcamentos() {
+        return total_orcamentos;
+    }
+
+    public void setTotal_orcamentos(Double total_orcamentos) {
+        this.total_orcamentos = total_orcamentos;
+    }
+
     public int getItem() {
         return item;
     }
@@ -30,12 +39,8 @@ public class Orcamentos {
     public void setItem(int item) {
         this.item = item;
     }
-    
-    public void setItem() {
-        this.item = contador++;
-    }
-
-    public String getDescricao() {
+   
+       public String getDescricao() {
         return descricao;
     }
 
@@ -60,7 +65,7 @@ public class Orcamentos {
     }
 
     public Double getTotal() {
-        return total;
+        return getQtd() * getValor();
     }
 
     public void setTotal(Double total) {

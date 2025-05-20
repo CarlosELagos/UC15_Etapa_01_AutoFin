@@ -12,8 +12,8 @@ CREATE TABLE cliente
 (
 id_cliente INT NOT NULL AUTO_INCREMENT,
 nome VARCHAR(25),
-CPF VARCHAR(11),
-RG VARCHAR(11),
+CPF VARCHAR(20),
+RG VARCHAR(20),
 endereco VARCHAR(45),
 telefone VARCHAR(11),
 celular VARCHAR(12),
@@ -75,13 +75,13 @@ CREATE TABLE orcamento
 (
 id_orcamento INT NOT NULL AUTO_INCREMENT,
 servico VARCHAR(60),
-data DATE,
+quantidade INT,
 valor DECIMAL(9,2),
 produto_id INT,
-carro_id INT,
+cliente VARCHAR(50),
+carro VARCHAR(10),
 PRIMARY KEY (id_orcamento),
-FOREIGN KEY (produto_id) REFERENCES produtos(id_produtos),
-FOREIGN KEY (carro_id) REFERENCES carro(id_carro)
+FOREIGN KEY (produto_id) REFERENCES produtos(id_produtos)
 );
 
 SELECT * FROM orcamento;

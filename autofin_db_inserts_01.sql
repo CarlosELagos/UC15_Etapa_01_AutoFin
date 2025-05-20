@@ -35,3 +35,17 @@ INSERT INTO produtos (nome,quantidade,valor,data) VALUES
 ("Velas de ignição", 12, 45.75, 20250515);
 
 SELECT * FROM produtos;
+
+INSERT INTO orcamento (servico,quantidade,valor,cliente,carro) VALUES
+("Troca de oleo", 4, 10.98, "Mario dos Santos", "AAA0A12"),
+("Substituição de filtro de ar", 1, 45.00, "Ana Pereira", "BBB1B23"),
+("Revisão geral", 1, 799.99, "Carlos Almeida", "CCC2C34"),
+("Troca de bateria", 1, 350.00, "Fernanda Lima", "DDD3D45"),
+("Alinhamento e balanceamento", 2, 120.50, "João Carvalho", "EEE4E56"),
+("Troca de pastilhas de freio", 1, 180.35, "Luciana Costa", "FFF5F67");
+
+SELECT * FROM orcamento;
+
+SELECT nome FROM cliente;
+
+SELECT placa FROM carro;

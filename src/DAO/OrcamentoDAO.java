@@ -23,6 +23,7 @@ public class OrcamentoDAO {
 
     private Conexao conexao;
     private Connection conn;
+    public Double calcTotal = 0.0;
 
     public OrcamentoDAO() {
 
@@ -73,6 +74,7 @@ public class OrcamentoDAO {
                 or.setItem(rs.getInt("id_orcamento"));
                 or.setDescricao(rs.getString("servico"));
                 or.setQtd(rs.getInt("quantidade"));
+                or.setValor(rs.getDouble("valor"));
                 or.setCliente(rs.getString("cliente"));
                 or.setPlaca(rs.getString("carro"));
 
@@ -88,4 +90,24 @@ public class OrcamentoDAO {
         return lista;
     }
 
+    public void total(){
+    
+        String sql = "SELECT SUM(quantidade * valor) AS total_orcamentos FROM orcamento";
+        
+        //calculando
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+        if (rs.next()){
+            calcTotal = rs.getDouble("total_orcamentos");
+        }
+        }catch(Exception e){
+                System.out.println("Erro ao calcular Total: " + e.getMessage());
+                }
+        
+    }
+    
+    
+    
+    
 }
