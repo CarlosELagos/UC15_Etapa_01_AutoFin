@@ -4,20 +4,13 @@
  */
 package Form;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import Beans.Produtos;
-
 
 import DAO.ProdutosDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableRowSorter;
-
-
 
 public class Produtosf extends javax.swing.JFrame {
 
@@ -27,7 +20,7 @@ public class Produtosf extends javax.swing.JFrame {
     public Produtosf() {
         initComponents();
         criaTabela();
-        
+
     }
 
     /**
@@ -97,7 +90,7 @@ public class Produtosf extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id", "Nome", "Quant.", "Valor", "Data"
             }
         ));
         jScrollPane2.setViewportView(tblProdutos);
@@ -175,7 +168,7 @@ public class Produtosf extends javax.swing.JFrame {
 
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         dispose();
-        
+
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -203,16 +196,15 @@ public class Produtosf extends javax.swing.JFrame {
                 p.getData()
             };
             model.addRow(linha);
-            
+
             // limpando os campos 
             txtNome.setText("");
             txtQuantidade.setText("");
             txtValor.setText("");
             txtData.setText("");
-            
+
             // Aviso de cadastrado 
             //JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
-
         } catch (Exception e) {
             System.out.println("não cadastrado.");
         }
@@ -252,11 +244,11 @@ public class Produtosf extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Produtosf().setVisible(true);
-                
+
             }
         });
     }
-    
+
     public DefaultTableModel criaTabela() {
 
         ProdutosDAO pDAO = new ProdutosDAO();
@@ -274,21 +266,15 @@ public class Produtosf extends javax.swing.JFrame {
                 pro.getValor(),
                 pro.getData(),};
             tabela.addRow(obj);
+            
+            
+            String[] str = new String[]{
+                "id", "Nome", "Quant.", "Valor", "Data",};
 
         }
         return tabela;
 
     }
-    
-    public void adicionarProduto(DefaultTableModel tabela, Produtos novoProduto) {
-    String[] linha = {
-        novoProduto.getNomeProduto(),
-        String.valueOf(novoProduto.getQuantidade()),
-        String.valueOf(novoProduto.getValor()),
-        novoProduto.getData()
-    };
-    tabela.addRow(linha);
-}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -309,9 +295,4 @@ public class Produtosf extends javax.swing.JFrame {
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 
-    private DefaultTableModel geraTabelaProdutos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    
 }

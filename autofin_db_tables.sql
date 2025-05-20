@@ -28,7 +28,7 @@ CREATE TABLE fornecedor
 (
 id_fornecedor INT NOT NULL AUTO_INCREMENT,
 nome VARCHAR(45),
-cnpj VARCHAR(11),
+cnpj VARCHAR(14),
 endereco VARCHAR(45),
 telefone INT,
 PRIMARY KEY (id_fornecedor)

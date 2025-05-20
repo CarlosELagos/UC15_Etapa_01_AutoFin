@@ -63,6 +63,7 @@ SELECT * FROM produtos;
 
 INSERT INTO orcamento
 (servico,data,valor,produto_id,carro_id)
+
 VALUES
 ('troca de valvula bieletas',"2024-08-01",150.98,1,1),
 ('troca de bandeja',"2024-08-01",150.98,2,2),
@@ -73,3 +74,4 @@ VALUES
 ('troca de pastilha de freio',"2024-08-01",150.98,6,1);
 
 SELECT * FROM orcamento;
+

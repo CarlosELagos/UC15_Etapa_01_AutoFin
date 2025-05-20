@@ -12,13 +12,22 @@ import javax.swing.table.DefaultTableModel;
 import Beans.Orcamentos;
 import Beans.OrcamentosCSV;
 import static Beans.OrcamentosCSV.listaOrcamentos;
+import DAO.OrcamentoDAO;
+import conexao.Conexao;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 
 public class Orcamento extends javax.swing.JFrame {
+    
+    private Conexao conexao;
+    private Connection conn;
 
     
     public Orcamento() {
         initComponents();
+        TabelaO();
         
     }
 
@@ -229,7 +238,8 @@ public class Orcamento extends javax.swing.JFrame {
             o.setPlaca(cbxPlaca.getSelectedItem().toString());
 
             //adicionando a lista
-            OrcamentosCSV.adicionarItem(o);
+            OrcamentoDAO oDAO = new OrcamentoDAO();
+            oDAO.insereItem(o);
 
             //obtendo a tabela
             DefaultTableModel model = (DefaultTableModel) tabelaO.getModel();
@@ -304,39 +314,59 @@ public class Orcamento extends javax.swing.JFrame {
     //preenche a combobox cliente
     public DefaultComboBoxModel combo() {
 
+        this.conexao = new Conexao();
+        this.conn = this.conexao.conectar();
+
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        try {
+            String sql = "SELECT nome FROM cliente";
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
 
-        String arquivoCSV = "./dados/clientes.csv";
-
-        try (BufferedReader leitor = new BufferedReader(new FileReader(arquivoCSV))) {
-            String linha;
-            while ((linha = leitor.readLine()) != null) {
-                String[] valores = linha.split(";");
-                model.addElement(valores[0]);
+            while (rs.next()) {
+                model.addElement(rs.getString("nome"));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Erro ao pegar nomes: " + e.getMessage());
+        } finally {
+            try {
+                if (this.conn != null) {
+                    this.conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao fechar a conexão:  " + e.getMessage());
+            }
         }
         return model;
 
     }
     //preenche a combobox placa
      public DefaultComboBoxModel comboPlaca() {
-        
-        DefaultComboBoxModel<String> modelP = new DefaultComboBoxModel<>();
                
-        String arquivoCSV = "./dados/veiculos.csv";
-        
-        try (BufferedReader leitor = new BufferedReader(new FileReader(arquivoCSV))) {
-            String linha;
-            while ((linha = leitor.readLine()) != null) {
-                String[] valores = linha.split(";");
-                modelP.addElement(valores[4]);
+        this.conexao = new Conexao();
+        this.conn = this.conexao.conectar();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        try {
+            String sql = "SELECT placa FROM carro";
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                model.addElement(rs.getString("placa"));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Erro ao pegar placas: " + e.getMessage());
+        } finally {
+            try {
+                if (this.conn != null) {
+                    this.conn.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Erro ao fechar a conexão:  " + e.getMessage());
+            }
         }
-        return modelP;
+        return model;
      }
      // preenche a tabela 
     public DefaultTableModel TabelaO() {
