@@ -1,17 +1,11 @@
 
 package Form;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.String;
-import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Beans.Orcamentos;
-import Beans.OrcamentosCSV;
-import static Beans.OrcamentosCSV.listaOrcamentos;
 import DAO.OrcamentoDAO;
 import conexao.Conexao;
 import java.sql.Connection;
@@ -29,7 +23,9 @@ public class Orcamento extends javax.swing.JFrame {
     
     public Orcamento() {
         initComponents();
+        exibe_total();
         TabelaO();
+        
                 
     }
 
@@ -59,9 +55,9 @@ public class Orcamento extends javax.swing.JFrame {
         txtTotal = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lblTotal = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblOrcamento = new javax.swing.JTable();
+        txtVT = new javax.swing.JLabel();
 
         jTextField4.setText("jTextField4");
 
@@ -112,8 +108,6 @@ public class Orcamento extends javax.swing.JFrame {
 
         jLabel7.setText("Total");
 
-        lblTotal.setText("Valor total do orçamento: ");
-
         tblOrcamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -126,6 +120,8 @@ public class Orcamento extends javax.swing.JFrame {
             }
         ));
         jScrollPane2.setViewportView(tblOrcamento);
+
+        txtVT.setText("Valor total dos orçamentos: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +169,7 @@ public class Orcamento extends javax.swing.JFrame {
                                 .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblTotal))
+                            .addComponent(txtVT))
                         .addGap(0, 98, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -203,9 +199,9 @@ public class Orcamento extends javax.swing.JFrame {
                     .addComponent(btnInserir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtVT)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
@@ -218,22 +214,14 @@ public class Orcamento extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        
+        
+        
         Orcamentos o = new Orcamentos();
         Double calc = null;
         Double calcTotal = 0.0;
         String sql = "SELECT SUM(quantidade * valor) AS total_orcamentos FROM orcamento";
-        
-        //calculando
-        try {
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-        if (rs.next()){
-            calcTotal = rs.getDouble("total_orcamentos");
-        }
-        }catch(Exception e){
-                System.out.println("Erro ao calcular Total: " + e.getMessage());
-                }
-           
+                         
         try {
             //adiciona item
 
@@ -251,14 +239,15 @@ public class Orcamento extends javax.swing.JFrame {
             //obtendo a tabela
             DefaultTableModel model = (DefaultTableModel) tblOrcamento.getModel();
 
-            //adicionando novo item sem recriar
+            //adicionando novo item
              
-            TabelaO();    
-             
-            // exibindo o total
+            TabelaO(); 
             
-            lblTotal.setText("Valor total do orçamento: R$ "+calcTotal);
-
+            // atualizando o total
+            
+            exibe_total();
+        
+           
             // limpando campos
             txtDescricao.setText("");
             txtQtd.setText("");
@@ -390,10 +379,11 @@ public class Orcamento extends javax.swing.JFrame {
             tabela.addRow(obj);
             
         }
+        
+        
+        
         return tabela;
     }
-
-
 
     public void adicinarItem(DefaultTableModel tabela, Orcamentos noI) {
         String[] linha = {
@@ -411,6 +401,9 @@ public class Orcamento extends javax.swing.JFrame {
     
     private void exibe_total() {
 
+        this.conexao = new Conexao();
+        this.conn = this.conexao.conectar();
+        
         Double calcTotal = 0.0;
         String sql = "SELECT SUM(quantidade * valor) AS total_orcamentos FROM orcamento";
         if (conn == null) {
@@ -422,7 +415,7 @@ public class Orcamento extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 calcTotal = rs.getDouble("total_orcamentos");
-                lblTotal.setText("Valor total do orçamento: R$ " + calcTotal);
+                txtVT.setText("Valor total do orçamento: R$ " + String.format("%.2f", calcTotal));
 
             }
         } catch (Exception e) {
@@ -431,20 +424,7 @@ public class Orcamento extends javax.swing.JFrame {
 
     }
     
-    private void atualizaTotalOrcamento() {
-        double totalOrcamento = 0.0;
-
-        DefaultTableModel model = (DefaultTableModel) tblOrcamento.getModel();
-        int contador = model.getRowCount();
-
-        for (int i = 0; i < contador; i++) {
-            totalOrcamento += (Double) model.getValueAt(i, 4);
-        }
-        lblTotal.setText("Valor total do orçamento: R$ " + totalOrcamento);
-        
-    }
-    
-    private int getPosicao() {
+        private int getPosicao() {
         int pos = tblOrcamento.getSelectedRow();
         if (pos <= 1) {
             JOptionPane.showMessageDialog(null, "Selecione um item para excluir!!");
@@ -471,11 +451,11 @@ public class Orcamento extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblOrcamento;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtQtd;
     private javax.swing.JTextField txtTotal;
+    private javax.swing.JLabel txtVT;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 }

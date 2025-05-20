@@ -6,12 +6,9 @@ package Form;
 
 import javax.swing.table.DefaultTableModel;
 import Beans.Produtos;
-
 import DAO.ProdutosDAO;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.TableRowSorter;
-
 public class Produtosf extends javax.swing.JFrame {
 
     /**
@@ -266,8 +263,7 @@ public class Produtosf extends javax.swing.JFrame {
                 pro.getValor(),
                 pro.getData(),};
             tabela.addRow(obj);
-            
-            
+
             String[] str = new String[]{
                 "id", "Nome", "Quant.", "Valor", "Data",};
 

@@ -49,3 +49,5 @@ SELECT * FROM orcamento;
 SELECT nome FROM cliente;
 
 SELECT placa FROM carro;
+
+SELECT SUM(quantidade * valor) AS total_orcamentos FROM orcamento;

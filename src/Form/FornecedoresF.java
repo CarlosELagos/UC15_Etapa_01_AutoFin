@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Form;
 
-import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import Beans.Fornecedores;
-import Beans.FornecedoresCSV;
-import static Beans.FornecedoresCSV.listaFornecedores;
 import DAO.FornecedorDAO;
 import java.util.List;
 import javax.swing.table.TableRowSorter;
@@ -225,8 +219,6 @@ public class FornecedoresF extends javax.swing.JFrame {
             txtCNPJ.setText("");
             txtEndereco.setText("");
             txtTelefone.setText("");
-            
-            
 
         } catch (Exception e) {
             System.out.println("Não Cadastrado.");
@@ -269,18 +261,8 @@ public class FornecedoresF extends javax.swing.JFrame {
 
         }
     }
-    /*
-    public void adicionarFornecedor(DefaultTableModel tabela, Fornecedores novoFornecedor) {
-    String[] linha = {
-        novoFornecedor.getNome(),
-        novoFornecedor.getCnpj(),
-        novoFornecedor.getTelefone(),
-        novoFornecedor.getEndereco()
-    };
-    tabela.addRow(linha);
-    }
-  */  
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnCadastro;
     private javax.swing.JButton btnSair;

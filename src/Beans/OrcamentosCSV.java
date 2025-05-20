@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class OrcamentosCSV {
 
     private static String orcamentos = "./dados/orcamentos.csv";
-    
+
     public static boolean adicionarItem(Orcamentos o) {
         try {
             Path path = Paths.get(orcamentos);
@@ -33,7 +33,7 @@ public class OrcamentosCSV {
                     + o.getQtd() + ";"
                     + o.getValor() + ";"
                     + o.getTotal() + ";"
-                    + o.getCliente() +";"
+                    + o.getCliente() + ";"
                     + o.getPlaca() + "\n"
             );
             escritor.flush();
@@ -43,9 +43,9 @@ public class OrcamentosCSV {
         }
         return false;
     }
-    
+
     public static ArrayList<Orcamentos> lista = new ArrayList<>();
-    
+
     public static ArrayList<Orcamentos> listaOrcamentos() {
         try {
             BufferedReader leitor = new BufferedReader(new FileReader(orcamentos));
@@ -59,7 +59,7 @@ public class OrcamentosCSV {
                 }
 
                 String[] part = linha.split(";");
-                
+
                 int item = Integer.parseInt(part[0]);
                 String descricao = part[1];
                 int qtd = Integer.parseInt(part[2]);
@@ -78,21 +78,20 @@ public class OrcamentosCSV {
         return lista;
 
     }
-    
-       public static boolean excluir(int id) {
-    
+
+    public static boolean excluir(int id) {
+
         try {
-            if (id < 0 ){
+            if (id < 0) {
                 JOptionPane.showMessageDialog(null, "Selecione um item para excluir!");
             } else {
                 lista.remove(id);
             }
-            
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir!");
         }
         return false;
     }
-        
-    
+
 }

@@ -1,16 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DAO;
 
-/**
- *
- * @author carlo
- */
-
 import Beans.Orcamentos;
-
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,7 +23,7 @@ public class OrcamentoDAO {
 
     }
 
-    public void insereItem (Orcamentos orcamentos) {
+    public void insereItem(Orcamentos orcamentos) {
 
         String sql = "INSERT INTO orcamento (servico,quantidade,valor,cliente,carro) VALUES" + "(?,?,?,?,?)";
 
@@ -54,8 +45,7 @@ public class OrcamentoDAO {
         }
 
     }
-    
-    
+
     public List<Orcamentos> geraTabelaOrcamento() {
 
         String sql = "SELECT * FROM orcamento";
@@ -90,24 +80,21 @@ public class OrcamentoDAO {
         return lista;
     }
 
-    public void total(){
-    
+    public void total() {
+
         String sql = "SELECT SUM(quantidade * valor) AS total_orcamentos FROM orcamento";
-        
+
         //calculando
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-        if (rs.next()){
-            calcTotal = rs.getDouble("total_orcamentos");
+            if (rs.next()) {
+                calcTotal = rs.getDouble("total_orcamentos");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao calcular Total: " + e.getMessage());
         }
-        }catch(Exception e){
-                System.out.println("Erro ao calcular Total: " + e.getMessage());
-                }
-        
+
     }
-    
-    
-    
-    
+
 }
