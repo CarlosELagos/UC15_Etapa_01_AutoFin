@@ -11,7 +11,10 @@ import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JFormattedTextField;
 import javax.swing.table.TableRowSorter;
 
 
@@ -25,6 +28,7 @@ public class Orcamento extends javax.swing.JFrame {
         initComponents();
         exibe_total();
         TabelaO();
+        AtualizaData ();
         
                 
     }
@@ -58,6 +62,7 @@ public class Orcamento extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblOrcamento = new javax.swing.JTable();
         txtVT = new javax.swing.JLabel();
+        txtData = new javax.swing.JFormattedTextField();
 
         jTextField4.setText("jTextField4");
 
@@ -159,6 +164,7 @@ public class Orcamento extends javax.swing.JFrame {
                                 .addComponent(jLabel7))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtVT)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -166,10 +172,11 @@ public class Orcamento extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(21, 21, 21)
-                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtData)
+                                    .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
-                                .addComponent(btnInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtVT))
+                                .addComponent(btnInserir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 98, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -184,7 +191,9 @@ public class Orcamento extends javax.swing.JFrame {
                     .addComponent(cbxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(cbxPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
+                .addGap(7, 7, 7)
+                .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
@@ -434,7 +443,13 @@ public class Orcamento extends javax.swing.JFrame {
         }
         return pos;
     }
-
+        
+        public void AtualizaData () {
+        
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+            txtData.setValue(sdf.format(new Date()));
+            
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInserir;
@@ -452,6 +467,7 @@ public class Orcamento extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTable tblOrcamento;
+    private javax.swing.JFormattedTextField txtData;
     private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtQtd;
     private javax.swing.JTextField txtTotal;

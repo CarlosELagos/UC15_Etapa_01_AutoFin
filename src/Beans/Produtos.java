@@ -1,17 +1,19 @@
 package Beans;
 
+import java.util.Date;
+
 public class Produtos {
 
     private int id;
     private String nomeProduto;
     private int quantidade;
     private double valor;
-    private String data;
+    private Date data;
 
     public Produtos() {
     }
 
-    public Produtos(int id, String nomeProduto, int quantidade, double valor, String data) {
+    public Produtos(int id, String nomeProduto, int quantidade, double valor, Date data) {
         this.id = id;
         this.nomeProduto = nomeProduto;
         this.quantidade = quantidade;
@@ -51,12 +53,12 @@ public class Produtos {
         this.valor = valor;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 
-}
+    }

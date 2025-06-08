@@ -106,7 +106,7 @@ public class Veiculos extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "Modelo", "Marca", "Combu","Placa","Km"
+                "ID", "Marca", "Modelo", "Combu","Placa","Km"
             }
         ));
         jScrollPane2.setViewportView(tblVeiculos);

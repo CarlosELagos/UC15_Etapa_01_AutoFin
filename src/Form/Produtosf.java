@@ -7,6 +7,8 @@ package Form;
 import javax.swing.table.DefaultTableModel;
 import Beans.Produtos;
 import DAO.ProdutosDAO;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.TableRowSorter;
 public class Produtosf extends javax.swing.JFrame {
@@ -17,6 +19,7 @@ public class Produtosf extends javax.swing.JFrame {
     public Produtosf() {
         initComponents();
         criaTabela();
+        AtualizaData();
 
     }
 
@@ -41,9 +44,9 @@ public class Produtosf extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         btnVoltar = new javax.swing.JButton();
         txtValor = new javax.swing.JTextField();
-        txtData = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProdutos = new javax.swing.JTable();
+        txtData = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,10 +120,10 @@ public class Produtosf extends javax.swing.JFrame {
                                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(txtData, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
-                                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtQuantidade, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(281, 281, 281)
+                                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
+                                            .addComponent(txtQuantidade, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtData))
+                                        .addGap(219, 219, 219)
                                         .addComponent(btnCadastrar))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -172,34 +175,34 @@ public class Produtosf extends javax.swing.JFrame {
         Produtos p = new Produtos();
 
         try {
+            
+            //formatador de data
+            SimpleDateFormat entrada = new SimpleDateFormat ("yyyy-MM-dd");
+            Date data = entrada.parse(txtData.getText());
+            
             // adicinando novo produto
             p.setNomeProduto(txtNome.getText());
             p.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
             p.setValor(Double.parseDouble(txtValor.getText()));
-            p.setData(txtData.getText());
+            p.setData(data);
 
             // Adicionando a lista
             ProdutosDAO pDAO = new ProdutosDAO();
             pDAO.cadastroDeProdutos(p);
 
             //obtendo tabela
-            DefaultTableModel model = criaTabela();
+            
+            DefaultTableModel model = (DefaultTableModel) tblProdutos.getModel();
 
             //adicionando um novo produto sem recriar a tabela
-            String[] linha = {
-                p.getNomeProduto(),
-                String.valueOf(p.getQuantidade()),
-                String.valueOf(p.getValor()),
-                p.getData()
-            };
-            model.addRow(linha);
+
+           criaTabela(); 
 
             // limpando os campos 
             txtNome.setText("");
             txtQuantidade.setText("");
             txtValor.setText("");
-            txtData.setText("");
-
+            
             // Aviso de cadastrado 
             //JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         } catch (Exception e) {
@@ -271,6 +274,14 @@ public class Produtosf extends javax.swing.JFrame {
         return tabela;
 
     }
+    
+    public void AtualizaData() {
+    
+    
+        SimpleDateFormat sdf = new SimpleDateFormat ("yyyy-MM-dd");
+        txtData.setValue(sdf.format(new Date()));
+        
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -285,7 +296,7 @@ public class Produtosf extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblProdutos;
-    private javax.swing.JTextField txtData;
+    private javax.swing.JFormattedTextField txtData;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtQuantidade;
     private javax.swing.JTextField txtValor;
